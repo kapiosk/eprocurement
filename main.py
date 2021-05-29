@@ -18,13 +18,13 @@ rows = T01.findAll('tbody')[0].findAll('tr')
 now = datetime.datetime.utcnow()
 
 usedIds = []
-with open('eproc.csv', newline='', encoding='utf-8') as csvfile:
-    reader = csv.reader(csvfile, quoting=csv.QUOTE_ALL)
+with open('eproc.csv', newline='', delimiter='|', encoding='utf-8') as csvfile:
+    reader = csv.reader(csvfile, quoting=csv.QUOTE_NONE)
     for row in reader:
         usedIds.append(row[0])
 
-with open('eproc.csv', 'a', newline='', encoding='utf-8') as csvfile:
-    writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+with open('eproc.csv', 'a', newline='', delimiter='|', encoding='utf-8') as csvfile:
+    writer = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
     for row in rows:
         data = []
         tds = row.findAll('td')
