@@ -19,12 +19,12 @@ now = datetime.datetime.utcnow()
 
 usedIds = []
 with open('eproc.csv', newline='', encoding='utf-8') as csvfile:
-    reader = csv.reader(csvfile, delimiter='|', quoting=csv.QUOTE_NONE)
+    reader = csv.reader(csvfile, quoting=csv.QUOTE_ALL)
     for row in reader:
         usedIds.append(row[0])
 
 with open('eproc.csv', 'a', newline='', encoding='utf-8') as csvfile:
-    writer = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONE)
+    writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
     for row in rows:
         data = []
         tds = row.findAll('td')
@@ -35,14 +35,14 @@ with open('eproc.csv', 'a', newline='', encoding='utf-8') as csvfile:
             data.append(id)
             data.append(now.isoformat())
             data.append(baseUrl + link)
-            data.append(tds[2].text.strip())
-            data.append(archor.text.strip())
-            data.append(tds[3].findAll('img')[0]['title'])
-            data.append(tds[4].text.strip())
-            data.append(tds[5].text.strip())
-            data.append(tds[6].text.strip())
-            data.append(tds[7].text.strip())
-            data.append(tds[8].text.strip())
+            data.append(tds[2].text.strip().replace('"',"'"))
+            data.append(archor.text.strip().replace('"',"'"))
+            data.append(tds[3].findAll('img')[0]['title'].replace('"',"'"))
+            data.append(tds[4].text.strip().replace('"',"'"))
+            data.append(tds[5].text.strip().replace('"',"'"))
+            data.append(tds[6].text.strip().replace('"',"'"))
+            data.append(tds[7].text.strip().replace('"',"'"))
+            data.append(tds[8].text.strip().replace('"',"'"))
             data.append(baseUrl + tds[9].findAll('a')[0]['href'])
-            data.append(tds[11].text.strip())
+            data.append(tds[11].text.strip().replace('"',"'"))
             writer.writerow(data)
