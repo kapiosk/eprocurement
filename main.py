@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import csv
+import datetime
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
@@ -13,6 +14,8 @@ html = html.decode('utf-8')
 soup = BeautifulSoup(html, features='html.parser')
 T01 = soup.find(id='T01')
 rows = T01.findAll('tbody')[0].findAll('tr')
+
+now = datetime.datetime.utcnow()
 
 usedIds = []
 with open('eproc.csv', newline='', encoding='utf-8') as csvfile:
@@ -30,6 +33,7 @@ with open('eproc.csv', 'a', newline='', encoding='utf-8') as csvfile:
         id = link.split('=')[1]
         if id not in usedIds:
             data.append(id)
+            data.append(now.isoformat())
             data.append(baseUrl + link)
             data.append(tds[2].text.strip())
             data.append(archor.text.strip())
