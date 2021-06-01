@@ -17,6 +17,10 @@ rows = T01.findAll('tbody')[0].findAll('tr')
 
 now = datetime.datetime.utcnow()
 
+def ParseDate(dateString):
+    dateString = dateString.strip().replace('"',"'").replace('EEST ',"")
+    return datetime.datetime.strptime(dateString, "%a %b %d %H:%M:%S %Y").isoformat()
+
 usedIds = []
 with open('eproc.csv', newline='', encoding='utf-8') as csvfile:
     reader = csv.reader(csvfile, quoting=csv.QUOTE_ALL)
@@ -38,8 +42,12 @@ with open('eproc.csv', 'a', newline='', encoding='utf-8') as csvfile:
             data.append(tds[2].text.strip().replace('"',"'"))
             data.append(archor.text.strip().replace('"',"'"))
             data.append(tds[3].findAll('img')[0]['title'].replace('"',"'"))
-            data.append(tds[4].text.strip().replace('"',"'"))
-            data.append(tds[5].text.strip().replace('"',"'"))
+            try:
+                data.append(ParseDate(tds[4].text))
+                data.append(ParseDate(tds[5].text))
+            except Exception as e:
+                data.append("")
+                data.append("")
             data.append(tds[6].text.strip().replace('"',"'"))
             data.append(tds[7].text.strip().replace('"',"'"))
             data.append(tds[8].text.strip().replace('"',"'"))
